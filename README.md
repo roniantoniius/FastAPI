@@ -5,9 +5,21 @@
 
 **Windows**
 1. Create a virtual environment (Opsional, but if u already had all the version of package ur okay)
+```
+python -m venv env
+```
+   
 2. Use the virtual environment and choose the right `Interpreter`.
+```
+.\env\Scripts\activate
+```
+
 3. Install all required package and its version
-4. Run FastAPI code (code that call `from fastapi import FastAPI`)
+```
+pip install -r req1.txt
+```
+
+6. Run FastAPI code (code that call `from fastapi import FastAPI`)
 - `python main.py`
 **or**
 - `uvicorn main:app --reload`
