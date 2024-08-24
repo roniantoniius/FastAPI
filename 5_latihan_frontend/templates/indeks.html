@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Covid-19 API: Predicting Patient Risk 💊</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center center;
+            background-color: rgb(103, 254, 113);
+        }
+
+        .container {
+            max-width: 600px;
+            margin-top: 20px;
+            background-color: rgb(47, 55, 49);
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        h1 {
+            color: rgb(255, 255, 255);
+            font-family: 'Montserrat Bold', sans-serif;
+            font-weight: bold;
+        }
+
+        button.btn-primary {
+            background-color: rgb(103, 255, 136);
+        }
+
+        .result-alert {
+            margin-top: 20px;
+            color: rgb(255, 255, 255);
+            text-align: center;
+        }
+
+        label {
+            font-weight: bold; /* Menjadikan teks label menjadi bold */
+            color: rgb(255, 255, 255); /* Mengubah warna teks label menjadi putih */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center mb-4">Covid-19 API: Predicting Patient Risk 💊</h1>
+        <form id="formPrediksi">
+            <!-- Input fields -->
+            <div class="form-group">
+                <label for="usmer">USMER? (patient already treated for 1st, 2nd, or 3rd time):</label>
+                <input type="number" class="form-control" id="usmer" name="USMER" placeholder="Fill with 1, 2, or 3" required>
+            </div>
+            <div class="form-group">
+                <label for="medicalUnit">From Medical Unit? (Categorical for Health Facility like General Hospital, Clinic, Testing Center, Quarantine Center, Others):</label>
+                <input type="number" class="form-control" id="medicalUnit" name="MEDICAL_UNIT" placeholder="Fill with 1-13" required>
+            </div>
+            <div class="form-group">
+                <label for="sex">Gender? (1 and 2 for Female and Male, 3 if ur Walmart Bag):</label>
+                <input type="number" class="form-control" id="sex" name="SEX" placeholder="Enter 1 or 2" required>
+            </div>
+            <div class="form-group">
+                <label for="patientType">Patient Type? (Return Home: 1, Hospitalization: 2):</label>
+                <input type="number" class="form-control" id="patientType" name="PATIENT_TYPE" placeholder="Enter 1 or 2" required>
+            </div>
+            <div class="form-group">
+                <label for="intubed">Patient intubed? (Yes: 1, No: 2):</label>
+                <input type="number" class="form-control" id="intubed" name="INTUBED" placeholder="Enter 1 or 2" required>
+            </div>
+            <div class="form-group">
+                <label for="age">Whats the patient Age?:</label>
+                <input type="number" class="form-control" id="age" name="AGE" placeholder="Fill with patient's age" required>
+            </div>
+            <div class="form-group">
+                <label for="pregnant">Is patient pregnant? (Yes: 1, No: 2):</label>
+                <input type="number" class="form-control" id="pregnant" name="PREGNANT" placeholder="Fill with 1 or 2" required>
+            </div>
+            <div class="form-group">
+                <label for="classificationFinal">Whats your COVID Test Score? (Positive: 1-3, higher for negative or inconclusive: 4):</label>
+                <input type="number" class="form-control" id="classificationFinal" name="CLASIFFICATION_FINAL" placeholder="Enter the classification" required>
+            </div>
+            <div class="form-group">
+                <label for="icu">Admission to Intensive Care Unit (Yes: 1, No: 2):</label>
+                <input type="number" class="form-control" id="icu" name="ICU" placeholder="Enter 1 or 2" required>
+            </div>
+            <button type="button" class="btn btn-primary btn-block" onclick="predict()"><h1 style="color: black;">Predict</h1></button>
+        </form>
+        <div id="predictionResult" class="result-alert mt-4"></div>
+    </div>
+
+    <script>
+        async function predict() {
+            const form = document.getElementById('formPrediksi');
+            const formData = new FormData(form);
+            const data = {};
+
+            // must be change into JSON format to fastapi
+            formData.forEach((value, key) => {
+                data[key] = Number(value);
+            });
+
+            try {
+                const response = await fetch('/classify', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                const result = await response.json();
+                document.getElementById('predictionResult').textContent = `Prediction: ${result.prediction}`;
+            } catch (error) {
+                document.getElementById('predictionResult').textContent = `Error: ${error.message}`;
+                console.error('Error:', error);
+            }
+        }
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
