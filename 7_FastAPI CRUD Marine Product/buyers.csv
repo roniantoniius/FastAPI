@@ -1,0 +1,11 @@
+buyerId,name,email,phone,address
+1,John Doe,john.doe@example.com,123-456-7890,123 Ocean Avenue
+2,Jane Smith,jane.smith@example.com,321-654-0987,456 Sea Breeze Blvd
+3,Alice Brown,alice.brown@example.com,654-321-0987,789 Bay Street
+4,Alice Johnson,alice.johnson@example.com,+1234567894,"123 Maple Street, Springfield"
+5,Bob Smith,bob.smith@example.com,+1234567895,"456 Oak Avenue, Lincoln"
+6,Carol Davis,carol.davis@example.com,+1234567896,"789 Pine Road, Shelbyville"
+7,David Wilson,david.wilson@example.com,+1234567897,"101 Birch Lane, Centerville"
+8,Eve Miller,eve.miller@example.com,+1234567898,"202 Cedar Boulevard, Fairview"
+9,Frank Thomas,frank.thomas@example.com,+1234567899,"303 Elm Street, Greenwood"
+10,Grace Lee,grace.lee@example.com,+1234567800,"404 Spruce Court, Brookfield"
